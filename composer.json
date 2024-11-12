@@ -1,0 +1,15 @@
+{
+    "name": "studysurf/googlesignup",
+    "description": "User create google account",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "google/apiclient": "2.0"
+    },
+    "config": {
+        "platform": {
+            "php": "8.3.12"
+        }
+    }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Syllabus</title>
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+
+   <!-- link import -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body> 
+
+<div class="side-bar">
+
+   <div id="close-btn">
+      <i class="fas fa-times"></i>
+   </div>
+
+   <nav class="navbar">
+        <a href="teacher-profile.html"><i class="iconamoon--profile"></i><span>Profile</span></a>
+        <a href="teacher-dashboard.html"><i class="mage--dashboard-fill"></i><span>Dashboard</span></a>
+        <a href="teacher-courses.html"><i class="bxs--book"></i><span>Your Courses</span></a>
+        <a href="teacher-syllabus.html"><i class="mdi--pencil-outline"></i><span>Syllabus Maker</span></a>
+        <a href="homepage.html" class="logout">Log Out</a>
+    </nav>
+
+</div>
+
+<section class="contact">
+
+   <div class="row">
+
+        <!-- First Form -->
+        <form id="form1" action="" method="post">
+            <h3>Make Your Syllabus</h3>
+
+            <select name="subject" id="subject" class="box" required onchange="logSubjectSelection()">
+                <option value="" disabled selected>Select which subject</option>
+                <option value="math">Math</option>
+                <option value="english">English</option>
+                <option value="history">History</option>
+            </select>
+        
+            <input type="text" placeholder="Enter the title of the course" name="course_title" required maxlength="50" class="box" oninput="logCourseTitle(this.value)">
+        
+            <textarea name="course_description" class="box" placeholder="Enter the course description" required maxlength="200" cols="30" rows="10" oninput="logCourseDescription(this.value)"></textarea>
+            
+            <button type="button" class="inline-btn" onclick="showNextForm()">Next</button>
+        </form>
+        
+        <!-- Second Form -->
+        <form id="form2" action="" method="post" style="display: none;">
+            <h3>Chapter Details</h3>
+
+            <div id="chapter-container">
+                <div class="chapter-item">
+                    <input type="text" placeholder="Enter the title of the chapter" name="chapter_title[]" required maxlength="50" class="box">
+                    
+                    <input type="file" name="video_upload[]" accept="video/*" required class="box" placeholder="Upload your video" title="Upload your video">
+                </div>
+            </div>
+
+            <!-- Add Chapter Button -->
+            <button type="button" class="inline-btn" onclick="addChapter()" id="add-chapter-btn">
+                <i class="fas fa-plus"></i> Add Chapter
+            </button>
+
+            <!-- Message for maximum limit reached -->
+            <p id="limit-message" style="display: none; color: red;">You have reached the maximum of 10 chapters.</p>
+            
+            <input type="submit" value="Submit" class="inline-btn">
+        </form>
+
+        <!-- Saved Message -->
+        <p id="saved-message" style="display: none; color: green; font-weight: bold;">Your syllabus has been successfully saved!</p>
+        
+   </div>
+
+</section>
+
+<script>
+    // Console logs for first form actions
+    function logSubjectSelection() {
+        const subject = document.getElementById("subject").value;
+        console.log("Subject selected:", subject);
+    }
+
+    function logCourseTitle(value) {
+        console.log("Course title input:", value);
+    }
+
+    function logCourseDescription(value) {
+        console.log("Course description input:", value);
+    }
+
+    // Show the second form and hide the first form
+    function showNextForm() {
+        console.log("Switching to second form");
+        document.getElementById("form1").style.display = "none";
+        document.getElementById("form2").style.display = "block";
+    }
+
+    // Maximum number of chapters allowed
+    const MAX_CHAPTERS = 10;
+
+    // Function to add a new chapter field
+    function addChapter() {
+        const chapterContainer = document.getElementById("chapter-container");
+        const currentChapters = chapterContainer.getElementsByClassName("chapter-item").length;
+        
+        console.log(`Current number of chapters: ${currentChapters}`);
+        
+        // Check if maximum limit has been reached
+        if (currentChapters >= MAX_CHAPTERS) {
+            document.getElementById("add-chapter-btn").disabled = true;
+            document.getElementById("limit-message").style.display = "block";
+            console.log("Max chapter limit reached.");
+            return;
+        }
+
+        // Check if the previous chapter's video field is filled
+        const lastChapterVideo = chapterContainer.querySelector('.chapter-item:last-child input[type="file"]');
+        if (!lastChapterVideo.files.length) {
+            alert("Please upload a video if you want to add another chapter");
+            console.log("Alert triggered: User must upload video before adding a new chapter.");
+            return;
+        }
+
+        // Create a new div for the chapter item
+        const chapterItem = document.createElement("div");
+        chapterItem.className = "chapter-item";
+
+        // Create the chapter title input
+        const chapterInput = document.createElement("input");
+        chapterInput.type = "text";
+        chapterInput.placeholder = "Enter the title of the chapter";
+        chapterInput.name = "chapter_title[]";
+        chapterInput.required = true;
+        chapterInput.maxLength = 50;
+        chapterInput.className = "box";
+
+        // Create the video upload input
+        const videoInput = document.createElement("input");
+        videoInput.type = "file";
+        videoInput.name = "video_upload[]";
+        videoInput.accept = "video/*";
+        videoInput.required = true;
+        videoInput.className = "box";
+        videoInput.placeholder = "Upload your video"; // this will not show as placeholder for file input
+        videoInput.title = "Upload your video"; // use title instead
+
+        console.log("New chapter input and video upload elements created");
+
+        // Append the new inputs to the chapter item div
+        chapterItem.appendChild(chapterInput);
+        chapterItem.appendChild(videoInput);
+
+        // Append the new chapter item to the chapter container
+        chapterContainer.appendChild(chapterItem);
+
+        console.log("New chapter item appended to chapter container");
+
+        // Check if we reached the limit after adding the chapter
+        if (currentChapters + 1 >= MAX_CHAPTERS) {
+            document.getElementById("add-chapter-btn").disabled = true;
+            document.getElementById("limit-message").style.display = "block";
+            console.log("Disabling add chapter button and showing limit message");
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video</title>
+ 
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+ 
+    <!-- link import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+ 
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<header class="header">
+    <section class="flex">
+        <div class="back-button">
+            <a href="course.html"><img src="images/icons/openmoji_return-back-button.svg"><span>Back to Course Overview</span></a>
+        </div>
+    </section>
+</header>   
+
+<div class="side-bar">
+    <div id="close-btn">
+        <i class="fas fa-times"></i>
+     </div>
+     <nav class="navbar">
+      <a href="student-teacher-dashboard.html"><i class="mage--dashboard-fill"></i><span>Dashboard</span></a>
+      <a href="courses.html"><i class="bxs--book"></i><span>Courses</span></a>
+      <a href="search.html"><i class="iconamoon--search-bold"></i><span>Search</span></a>
+      <a href="homepage.html" class="logout">Log Out</a>
+   </nav>
+</div>
+
+<section class="watch-video">
+   <div class="video-container">
+      <div class="video">
+         <video src="images/test.mp4" controls poster="images/post-1-1.png" id="video"></video>
+      </div>
+      <h3 class="title">Chapter Title</h3>
+      <!-- <p class="description">
+         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque labore ratione, hic exercitationem mollitia obcaecati culpa dolor placeat provident porro.
+         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid iure autem non fugit sint. A, sequi rerum architecto dolor fugiat illo, iure velit nihil laboriosam cupiditate voluptatum facere cumque nemo!
+      </p> -->
+      
+      <!-- Speech to Text Caption -->
+      <div class="speech-to-text">
+         <p id="speech-output" style="font-size: 3em;"><!-- Captions will appear here... --></p>
+      </div>
+
+      <a href="quiz.html" class="inline-btn">Review Quiz</a>
+   </div>
+</section>
+
+<!-- custom js file link  -->
+<script>
+   // Check if the browser supports the Web Speech API
+if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    const video = document.getElementById('video');
+    const speechOutput = document.getElementById('speech-output');
+    
+    // Start speech recognition when the video starts playing
+    video.addEventListener('play', () => {
+        recognition.start();
+        /* speechOutput.textContent = 'Listening for captions...'; */
+    });
+
+    // Stop speech recognition when the video is paused or ends
+    video.addEventListener('pause', () => {
+        recognition.stop();
+        speechOutput.textContent = '';
+    });
+    video.addEventListener('ended', () => {
+        recognition.stop();
+        speechOutput.textContent = '';
+    });
+
+    // Capture speech recognition results
+    recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+        }
+        speechOutput.textContent = transcript;
+    };
+
+    // Handle errors
+    recognition.onerror = (event) => {
+        console.error('Speech recognition error detected:', event.error);
+    };
+} else {
+    alert("Sorry, your browser doesn't support speech recognition.");
+}
+
+</script>
+   
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+    
+    <!-- Font Awesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    
+    <!-- Link Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS File Link -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .hidden { 
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+    <section class="questionnaire-form">
+        <div id="question1">
+            <h1>Are you a..</h1>
+            <button onclick="selectRole('student')">Student</button>
+            <button onclick="selectRole('teacher')">Teacher</button>
+        </div>
+        
+        <div id="question2" class="hidden">
+            <h1>What is your name?</h1>
+            <input type="text" id="nameInput" placeholder="Enter your name"/>
+            <button class="next-btn" onclick="askNextQuestion()">Next</button>
+        </div>
+        
+        <div id="question3" class="hidden">
+            <h1>What subject(s) do you want to learn?</h1>
+            <label><input type="checkbox" name="studentSubjects" value="Math"> Math</label>
+            <label><input type="checkbox" name="studentSubjects" value="English"> English</label>
+            <label><input type="checkbox" name="studentSubjects" value="History"> History</label>
+            <button onclick="redirectStudent()">Submit</button>
+        </div>
+        
+        
+        <div id="question6" class="hidden">
+            <h1>Where do you teach?</h1>
+            <input type="text" id="teachingLocation" />
+            <button onclick="nextTeacherQuestion()">Next</button>
+        </div>
+        
+        <div id="question7" class="hidden">
+            <h1>What subject(s) do you want to teach?</h1>
+            <label><input type="checkbox" name="teachSubjects" value="Math"> Math</label>
+            <label><input type="checkbox" name="teachSubjects" value="English"> English</label>
+            <label><input type="checkbox" name="teachSubjects" value="History"> History</label>
+            <button onclick="redirectBasedOnRole()">Submit</button>
+        </div>
+    </section> 
+    
+    
+    <script src="script/script.js"></script>
+</body>
+</html>
